@@ -75,11 +75,13 @@ add_executable(${PROJECT_NAME}
     libs/NuRaft/examples/logger.cc
 )
 
+set(ROCKS_DB_DEPS RocksDB z bz2 snappy lz4 pthread)
+
 # Link libraries
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     NuRaft::static_lib
-    RocksDB z bz2 snappy lz4 pthread
+    ${ROCKS_DB_DEPS}
     protobuf::libprotobuf
     gRPC::grpc
     gRPC::grpc++
@@ -94,3 +96,6 @@ target_include_directories(${PROJECT_NAME}
 
 # Make sure the executable depends on the proto generation
 add_dependencies(${PROJECT_NAME} generate_grpc_cpp)
+
+# Add test subdirectory
+add_subdirectory(tests)
