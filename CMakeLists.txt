@@ -101,13 +101,3 @@ add_dependencies(${PROJECT_NAME} generate_grpc_cpp)
 
 # Tests
 add_subdirectory(tests)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/runtests.sh ${CMAKE_CURRENT_BINARY_DIR}/runtests.sh COPYONLY)
-file(CHMOD ${CMAKE_CURRENT_BINARY_DIR}/runtests.sh PERMISSIONS OWNER_EXECUTE OWNER_READ)
-
-add_custom_target(tests
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/runtests.sh
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/runtests.sh
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Running tests"
-)

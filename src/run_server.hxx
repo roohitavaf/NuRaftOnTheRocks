@@ -2,6 +2,7 @@
 #include "single_in_memory/kv_server_impl.hxx"
 #include "single_rocksdb/kv_server_impl.hxx"
 #include "multi_in_memory/state_machine.hxx"
+#include "multi_rocksdb/state_machine.hxx"
 #include "common/raft_kv_server.hxx"
 #include "common/grpc_server.hxx"
 #include "libnuraft/nuraft.hxx"
@@ -24,7 +25,8 @@ void RunServer(int grpcPort, int raftPort, int raftId, bool multi, bool rocksdb)
         // For the multi-node case, we need a Raft state machine
         ptr<KeyValueStateMachine> sm;
         if (rocksdb) {
-            exit(1); //Not implemented
+            // State machine backed by RocksDB
+            sm = cs_new<MultiRocksDBStateMachine>(raftId);
         } else {
             // State machine backed by an in-memory map
             sm = cs_new<MultiInMemoryStateMachine>();

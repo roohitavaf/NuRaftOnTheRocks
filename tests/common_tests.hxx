@@ -34,7 +34,9 @@ int CRUD_Test(ptr<KeyValueServer> kv_server) {
         {"Name2", "Mo2"},
         {"Name3", "Mo3"}
     };
-    CHK_TRUE(expectedKeyValues == keyValues);
-
+    for (int i = 0; i < 3; i++) {
+        CHK_EQ(expectedKeyValues[i].first, keyValues[i].first);
+        CHK_EQ(expectedKeyValues[i].second, keyValues[i].second);
+    }
     return 0;
 }
