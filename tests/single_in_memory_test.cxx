@@ -1,4 +1,4 @@
-#include "common.hxx"
+#include "common_tests.hxx"
 #include "nuraft.hxx"
 #include "single_in_memory/kv_server_impl.hxx"
 

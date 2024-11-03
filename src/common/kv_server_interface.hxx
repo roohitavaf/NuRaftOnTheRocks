@@ -15,11 +15,11 @@ public:
     virtual int deleteKey(std::string key) = 0;
     virtual int scanKey(std::string startKey, std::string endKey, std::vector<std::pair<std::string, std::string>>& keyValues) = 0;
 
-    int addServer(std::string id, std::string address) {
+    virtual int addServer(std::string id, std::string address) {
         return 0;
     }
 
-    int listServers(std::vector<Server>& servers) {
+    virtual int listServers(std::vector<Server>& servers) {
         return 0;
     }
 };

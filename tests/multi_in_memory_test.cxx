@@ -1,6 +1,7 @@
 #include "common_tests.hxx"
 #include "nuraft.hxx"
-#include "single_rocksdb/kv_server_impl.hxx"
+#include "multi_in_memory/state_machine.hxx"
+#include "common/raft_kv_server.hxx"
 
 #include <string>
 
@@ -11,6 +12,7 @@ int main(int argc, char** argv) {
     TestSuite ts(argc, argv);
     ts.options.printTestMessage = true;
 
-    auto kv_server = cs_new<SingleRocksDB>();
+    ptr<KeyValueStateMachine> sm = cs_new<MultiInMemoryStateMachine>();
+    auto kv_server = cs_new<RaftKeyValueServer>(1, 50051, sm);
     ts.doTest("CRUD_Test", CRUD_Test, kv_server);
 }

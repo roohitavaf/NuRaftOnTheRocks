@@ -30,3 +30,25 @@ target_link_libraries(single_rocksdb_test
     NuRaft::static_lib
     ${ROCKS_DB_DEPS}
 )
+
+# Multi In-Memory
+add_executable(multi_in_memory_test
+                multi_in_memory_test.cxx
+                ${CMAKE_SOURCE_DIR}/libs/NuRaft/examples/in_memory_log_store.cxx
+                ${CMAKE_SOURCE_DIR}/libs/NuRaft/examples/logger.cc
+)
+
+target_include_directories(multi_in_memory_test
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/libs/NuRaft/tests
+    ${CMAKE_SOURCE_DIR}/libs/NuRaft/include/libnuraft
+    ${CMAKE_SOURCE_DIR}/libs/NuRaft/examples
+    ${CMAKE_SOURCE_DIR}/src
+)
+
+target_link_libraries(multi_in_memory_test
+    PRIVATE
+    NuRaft::static_lib
+    ${ROCKS_DB_DEPS}
+    OpenSSL::SSL
+)

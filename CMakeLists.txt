@@ -9,6 +9,7 @@ set(CMAKE_CXX_FLAGS "-Wall -O2")
 find_package(RocksDB REQUIRED)
 find_package(gRPC REQUIRED)
 find_package(Protobuf REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 # Locate protobuf compiler and gRPC plugin
 find_program(PROTOC_EXECUTABLE protoc REQUIRED)
@@ -82,6 +83,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
     NuRaft::static_lib
     ${ROCKS_DB_DEPS}
+    OpenSSL::SSL
     protobuf::libprotobuf
     gRPC::grpc
     gRPC::grpc++

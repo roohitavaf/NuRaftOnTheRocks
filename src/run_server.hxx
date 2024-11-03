@@ -1,6 +1,8 @@
 
 #include "single_in_memory/kv_server_impl.hxx"
 #include "single_rocksdb/kv_server_impl.hxx"
+#include "multi_in_memory/state_machine.hxx"
+#include "common/raft_kv_server.hxx"
 #include "common/grpc_server.hxx"
 #include "libnuraft/nuraft.hxx"
 
@@ -18,11 +20,23 @@ void RunServer(int grpcPort, int raftPort, int raftId, bool multi, bool rocksdb)
     std::string server_address("0.0.0.0:" + std::to_string(grpcPort));
 
     ptr<KeyValueServer> kv_server;
-    if (rocksdb) {
-        kv_server = cs_new<SingleRocksDB>();
-
+    if (multi) {
+        // For the multi-node case, we need a Raft state machine
+        ptr<KeyValueStateMachine> sm;
+        if (rocksdb) {
+            exit(1); //Not implemented
+        } else {
+            // State machine backed by an in-memory map
+            sm = cs_new<MultiInMemoryStateMachine>();
+        }
+        kv_server = cs_new<RaftKeyValueServer>(raftId, raftPort, sm);
     } else {
-        kv_server = cs_new<SingleInMemory>();
+        if (rocksdb) {
+            kv_server = cs_new<SingleRocksDB>();
+
+        } else {
+            kv_server = cs_new<SingleInMemory>();
+        }
     }
     NuRaftOnTheRocks::Service* service =  new GrpcServer(kv_server);
 
