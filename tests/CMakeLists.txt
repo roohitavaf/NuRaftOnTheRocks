@@ -1,3 +1,4 @@
+# Single In-Memory
 add_executable(single_in_memory_test
                 single_in_memory_test.cxx)
 
@@ -8,8 +9,24 @@ target_include_directories(single_in_memory_test
     ${CMAKE_SOURCE_DIR}/src
 )
 
-# Link libraries
 target_link_libraries(single_in_memory_test
     PRIVATE
     NuRaft::static_lib
+)
+
+# Single RocksDB
+add_executable(single_rocksdb_test
+                single_rocksdb_test.cxx)
+
+target_include_directories(single_rocksdb_test
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/libs/NuRaft/tests
+    ${CMAKE_SOURCE_DIR}/libs/NuRaft/include/libnuraft
+    ${CMAKE_SOURCE_DIR}/src
+)
+
+target_link_libraries(single_rocksdb_test
+    PRIVATE
+    NuRaft::static_lib
+    ${ROCKS_DB_DEPS}
 )

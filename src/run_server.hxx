@@ -1,5 +1,6 @@
 
 #include "single_in_memory/kv_server_impl.hxx"
+#include "single_rocksdb/kv_server_impl.hxx"
 #include "common/grpc_server.hxx"
 #include "libnuraft/nuraft.hxx"
 
@@ -16,7 +17,13 @@ void signalHandler(int signum) {
 void RunServer(int grpcPort, int raftPort, int raftId, bool multi, bool rocksdb) {
     std::string server_address("0.0.0.0:" + std::to_string(grpcPort));
 
-    ptr<KeyValueServer> kv_server; kv_server = cs_new<SingleInMemory>();
+    ptr<KeyValueServer> kv_server;
+    if (rocksdb) {
+        kv_server = cs_new<SingleRocksDB>();
+
+    } else {
+        kv_server = cs_new<SingleInMemory>();
+    }
     NuRaftOnTheRocks::Service* service =  new GrpcServer(kv_server);
 
     ServerBuilder builder;
