@@ -1,6 +1,6 @@
 # NuRaftOnTheRocks
 
-NuRaftOnTheRocks is a replicated key-value store using RocksDB as storage engine and NuRaft for replication.
+NuRaftOnTheRocks is a replicated key-value store using [RocksDB](https://github.com/facebook/rocksdb) as storage engine and [NuRaft](https://github.com/eBay/NuRaft) for replication.
 
 ## How to Build
 ### Install Dependencies
